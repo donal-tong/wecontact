@@ -686,12 +686,12 @@ public class QYWebView extends AppActivity  {
 		}
 	}
 	
-	private void okshare(boolean silent, String platform, String desc, String title, String link, String filePath) {
+	private void okshare(boolean silent, String platform, final String desc, String title, final String link, String filePath) {
 		try {
 			final OnekeyShare oks = new OnekeyShare();
 			oks.setNotification(R.drawable.ic_launcher, getResources().getString(R.string.app_name));
 			oks.setTitle(title);
-			oks.setText("#群友通讯录#" +desc + "\n" + link);
+			oks.setText(desc + "\n" + link);
 			oks.setUrl(link);
 			if (StringUtils.notEmpty(filePath)) {
 				oks.setImagePath(filePath);
@@ -712,29 +712,18 @@ public class QYWebView extends AppActivity  {
 			oks.setTitleUrl(link);
 			oks.setLatitude(23.056081f);
 			oks.setLongitude(113.385708f);
-			oks.setCallback(new PlatformActionListener() {
-				@Override
-				public void onError(Platform arg0, int arg1, Throwable arg2) {
-//					if (arg0.getName().equals(Wechat.NAME) || arg0.getName().equals(WechatMoments.NAME)) {
-						Logger.i("a");
-//					}
-				}
-				
-				@Override
-				public void onComplete(Platform arg0, int arg1, HashMap<String, Object> arg2) {
-					
-				}
-				
-				@Override
-				public void onCancel(Platform arg0, int arg1) {
-					Logger.i("a");
-				}
-			});
 			oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
 				@Override
 				public void onShare(Platform platform, ShareParams paramsToShare) {
-					if (platform.getName().equals(Wechat.NAME) || platform.getName().equals(WechatMoments.NAME)) {
-						Logger.i("a");
+					if (platform.getName().equals(Wechat.NAME)) {
+						paramsToShare.setText(desc + " " + link);
+						paramsToShare.setTitle("");
+						paramsToShare.setText(desc + " " + link);
+						paramsToShare.setUrl(link);
+						paramsToShare.setSiteUrl(link);
+						paramsToShare.setSite(link);
+						paramsToShare.setTitleUrl("");
+						paramsToShare.setImagePath("");
 					}
 				}
 			});
