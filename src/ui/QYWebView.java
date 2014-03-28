@@ -6,6 +6,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +25,13 @@ import bean.Entity;
 import bean.Result;
 import bean.UserEntity;
 import bean.WebContent;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.Platform.ShareParams;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -705,6 +712,32 @@ public class QYWebView extends AppActivity  {
 			oks.setTitleUrl(link);
 			oks.setLatitude(23.056081f);
 			oks.setLongitude(113.385708f);
+			oks.setCallback(new PlatformActionListener() {
+				@Override
+				public void onError(Platform arg0, int arg1, Throwable arg2) {
+//					if (arg0.getName().equals(Wechat.NAME) || arg0.getName().equals(WechatMoments.NAME)) {
+						Logger.i("a");
+//					}
+				}
+				
+				@Override
+				public void onComplete(Platform arg0, int arg1, HashMap<String, Object> arg2) {
+					
+				}
+				
+				@Override
+				public void onCancel(Platform arg0, int arg1) {
+					Logger.i("a");
+				}
+			});
+			oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
+				@Override
+				public void onShare(Platform platform, ShareParams paramsToShare) {
+					if (platform.getName().equals(Wechat.NAME) || platform.getName().equals(WechatMoments.NAME)) {
+						Logger.i("a");
+					}
+				}
+			});
 			oks.show(context);
 		} catch (Exception e) {
 			Logger.i(e);

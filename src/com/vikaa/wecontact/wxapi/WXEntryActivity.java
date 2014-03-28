@@ -6,8 +6,9 @@
  * Copyright (c) 2013年 ShareSDK.cn. All rights reserved.
  */
 
-package ui;
+package com.vikaa.wecontact.wxapi;
 
+import ui.Index;
 import android.content.Intent;
 import android.widget.Toast;
 import cn.sharesdk.wechat.utils.WXAppExtendObject;
